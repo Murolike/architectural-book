@@ -14,4 +14,6 @@ enum UserFriendlyDateTimeText: string
     case today = 'сегодня';
     case dayBeforeYesterday = 'позавчера';
     case dayAfterTomorrow = 'после завтра';
+    case twoWeekAgo = 'две недели назад';
+    case twoWeekLater = 'через две недели';
 }

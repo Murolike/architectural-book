@@ -1,18 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Murolike\Book\Components\FriendlyDate\Constructor;
 
 use DateTime;
+use Murolike\Book\Components\FriendlyDate\UserFriendlyDateTimeText;
 
 /**
- * Наследование
+ * Класс для преобразования даты в текст
  * Задача "Реализовать расширение функционала" - "Наследование"
  */
 class UserFriendlyDateTimeExtend extends UserFriendlyDateTime
 {
-    protected DateTime $twoWeeksAgo;
-    protected DateTime $twoWeeksLater;
+    /**
+     * Две недели назад
+     * @var DateTime
+     */
+    protected readonly DateTime $twoWeeksAgo;
 
+    /**
+     * Две недели спустя
+     * @var DateTime
+     */
+    protected readonly DateTime $twoWeeksLater;
+
+    /**
+     * @param DateTime $userDateTime
+     */
     public function __construct(DateTime $userDateTime)
     {
         parent::__construct($userDateTime);
@@ -22,38 +37,39 @@ class UserFriendlyDateTimeExtend extends UserFriendlyDateTime
     }
 
     /**
-     * @return string|null
-     * @todo если нет нужного варианта, хотелось бы вернуть свою дату
+     * @inheritdoc
      */
     public function getDate(): ?string
     {
         $value = parent::getDate();
 
         if ($this->isTwoWeeksAgo()) {
-            $value = 'две недели назад';
+            $value = UserFriendlyDateTimeText::twoWeekAgo->value;
         }
         if ($this->isTwoWeeksLater()) {
-            $value = 'через две недели';
+            $value = UserFriendlyDateTimeText::twoWeekLater->value;
         }
 
         return $value;
     }
 
     /**
-     * @return bool
+     * Проверка на две недели назад
+     * @return bool Возвращает true, если это две недели назад
      */
     public function isTwoWeeksAgo(): bool
     {
-        $userDateTime = $this->castUserDateTimeToMidnight($this->userDateTime);
+        $userDateTime = $this->setMidnightTime($this->userDateTime);
         return $this->twoWeeksAgo === $userDateTime;
     }
 
     /**
-     * @return bool
+     * Проверка на две недели после
+     * @return bool Возвращает true, если это две недели после
      */
     public function isTwoWeeksLater(): bool
     {
-        $userDateTime = $this->castUserDateTimeToMidnight($this->userDateTime);
+        $userDateTime = $this->setMidnightTime($this->userDateTime);
         return $this->twoWeeksLater === $userDateTime;
     }
 }

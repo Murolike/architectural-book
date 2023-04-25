@@ -6,11 +6,11 @@ use Murolike\Book\Components\FriendlyDate\Constructor\UserFriendlyDateTime;
 
 class UserFriendlyDateTimeTest extends TestCase
 {
-    protected readonly DateTime $today;
-    protected readonly DateTime $dayBeforeYesterday;
-    protected readonly DateTime $yesterday;
-    protected readonly DateTime $tomorrow;
-    protected readonly DateTime $dayAfterTomorrow;
+    protected DateTime $today;
+    protected DateTime $dayBeforeYesterday;
+    protected DateTime $yesterday;
+    protected DateTime $tomorrow;
+    protected DateTime $dayAfterTomorrow;
 
     protected function setUp(): void
     {
@@ -22,7 +22,7 @@ class UserFriendlyDateTimeTest extends TestCase
         $this->dayAfterTomorrow = new DateTime('tomorrow +1 day');
     }
 
-    public function testIsCurrentDay()
+    public function testIsCurrentDay(): void
     {
         $component = new UserFriendlyDateTime($this->today);
         self::assertTrue($component->isCurrentDay());
@@ -31,7 +31,7 @@ class UserFriendlyDateTimeTest extends TestCase
         self::assertFalse($component->isCurrentDay());
     }
 
-    public function testIsTomorrow()
+    public function testIsTomorrow(): void
     {
         $component = new UserFriendlyDateTime($this->tomorrow);
         self::assertTrue($component->isTomorrow());
@@ -40,7 +40,7 @@ class UserFriendlyDateTimeTest extends TestCase
         self::assertFalse($component->isTomorrow());
     }
 
-    public function testIsYesterday()
+    public function testIsYesterday(): void
     {
         $component = new UserFriendlyDateTime($this->yesterday);
         self::assertTrue($component->isYesterday());
@@ -49,7 +49,7 @@ class UserFriendlyDateTimeTest extends TestCase
         self::assertFalse($component->isYesterday());
     }
 
-    public function testIsDayAfterTomorrow()
+    public function testIsDayAfterTomorrow(): void
     {
         $component = new UserFriendlyDateTime($this->dayAfterTomorrow);
         self::assertTrue($component->isDayAfterTomorrow());
@@ -58,7 +58,7 @@ class UserFriendlyDateTimeTest extends TestCase
         self::assertFalse($component->isDayAfterTomorrow());
     }
 
-    public function testIsDayBeforeYesterday()
+    public function testIsDayBeforeYesterday(): void
     {
         $component = new UserFriendlyDateTime($this->dayBeforeYesterday);
         self::assertTrue($component->isDayBeforeYesterday());
@@ -67,7 +67,7 @@ class UserFriendlyDateTimeTest extends TestCase
         self::assertFalse($component->isDayBeforeYesterday());
     }
 
-    public function testGetDate()
+    public function testGetDate(): void
     {
         $currentDayUserFriendlyDateTime = new UserFriendlyDateTime($this->today);
         $tomorrowUserFriendlyDateTime = new UserFriendlyDateTime($this->tomorrow);
@@ -90,7 +90,7 @@ class UserFriendlyDateTimeTest extends TestCase
         self::assertNull($fiveDayAgoUserFriendlyDateTime->getDate());
     }
 
-    public function testGetCapitalizedDate()
+    public function testGetCapitalizedDate(): void
     {
         $currentDayUserFriendlyDateTime = new UserFriendlyDateTime($this->today);
         $tomorrowUserFriendlyDateTime = new UserFriendlyDateTime($this->tomorrow);
@@ -123,7 +123,7 @@ class UserFriendlyDateTimeTest extends TestCase
         self::assertNull($fiveDayAgoUserFriendlyDateTime->getCapitalizedDate());
     }
 
-    protected function getCapitalizedDate($value): string
+    protected function getCapitalizedDate(string $value): string
     {
         return mb_strtoupper(mb_substr($value, 0, 1)) . mb_substr($value, 1);
     }

@@ -7,17 +7,45 @@ namespace Murolike\Book\Components\FriendlyDate\Constructor;
 use DateTime;
 use Murolike\Book\Components\FriendlyDate\UserFriendlyDateTimeText;
 
+/**
+ * Класс для преобразования даты в текст
+ * @todo Это не компонент, так как он будет создаваться для каждой даты, что теряет возможность многократного его использования
+ */
 class UserFriendlyDateTime
 {
+    /**
+     * Текущая дата
+     * @var DateTime
+     */
     protected readonly DateTime $today;
+
+    /**
+     * Позавчера
+     * @var DateTime
+     */
     protected readonly DateTime $dayBeforeYesterday;
+
+    /**
+     * Вчера
+     * @var DateTime
+     */
     protected readonly DateTime $yesterday;
+
+    /**
+     * Завтра
+     * @var DateTime
+     */
     protected readonly DateTime $tomorrow;
+
+    /**
+     * После завтра
+     * @var DateTime
+     */
     protected readonly DateTime $dayAfterTomorrow;
 
     /**
-     * @param DateTime $userDateTime
-     * @todo Передаем в конструктор $userDateTime, а если у нас будет работа с множеством $userDateTime - создавать много объектов?
+     * Конструктор
+     * @param DateTime $userDateTime Пользовательское время
      */
     public function __construct(protected readonly DateTime $userDateTime)
     {
@@ -29,8 +57,8 @@ class UserFriendlyDateTime
     }
 
     /**
-     * @return string|null
-     * @todo если нет нужного варианта, хотелось бы вернуть свою дату
+     * Получить дату в формате текста
+     * @return string|null Возвращает текст, если смог найти подходящий шаблон, иначе null
      */
     public function getDate(): ?string
     {
@@ -56,7 +84,8 @@ class UserFriendlyDateTime
     }
 
     /**
-     * @return string|null
+     * Получить дату в формате текста (с заглавной)
+     * @return string|null Возвращает текст, если смог найти подходящий шаблон, иначе null
      */
     public function getCapitalizedDate(): ?string
     {
@@ -67,51 +96,67 @@ class UserFriendlyDateTime
         return $value;
     }
 
+    /**
+     * Проверка на позавчерашний день
+     * @return bool Возвращает true, если это позавчерашний день
+     */
     public function isDayBeforeYesterday(): bool
     {
-        $userDateTime = $this->castUserDateTimeToMidnight($this->userDateTime);
+        $userDateTime = $this->setMidnightTime($this->userDateTime);
 
         return $this->dayBeforeYesterday == $userDateTime;
     }
 
+    /**
+     * Проверка на послезавтрашний день
+     * @return bool Возвращает true, если это послезавтрашний день
+     */
     public function isDayAfterTomorrow(): bool
     {
-        $userDateTime = $this->castUserDateTimeToMidnight($this->userDateTime);
+        $userDateTime = $this->setMidnightTime($this->userDateTime);
 
         return $this->dayAfterTomorrow == $userDateTime;
     }
 
+    /**
+     * Проверка на завтрашний день
+     * @return bool Возвращает true, если это завтрашний день
+     */
     public function isTomorrow(): bool
     {
-        $userDateTime = $this->castUserDateTimeToMidnight($this->userDateTime);
+        $userDateTime = $this->setMidnightTime($this->userDateTime);
 
         return $this->tomorrow == $userDateTime;
     }
 
+    /**
+     * Проверка на вчерашний день
+     * @return bool Возвращает true, если это вчерашний день
+     */
     public function isYesterday(): bool
     {
-        $userDateTime = $this->castUserDateTimeToMidnight($this->userDateTime);
+        $userDateTime = $this->setMidnightTime($this->userDateTime);
 
         return $this->yesterday == $userDateTime;
     }
 
     /**
-     * Текущий ли день (проверяет день, месяц, год)
-     * @return bool Возвращает true, если текущий день, иначе false
+     * Проверка на текущий день
+     * @return bool Возвращает true, если это текущий день
      */
     public function isCurrentDay(): bool
     {
-        $userDateTime = $this->castUserDateTimeToMidnight($this->userDateTime);
+        $userDateTime = $this->setMidnightTime($this->userDateTime);
 
         return $this->today == $userDateTime;
     }
 
     /**
+     * Преобразывает время к полночи
      * @param DateTime $userDateTime
-     * @return DateTime
-     * @todo переименовать
+     * @return DateTime Возвращает пользовательскую дату с установленным времен на полночи
      */
-    protected function castUserDateTimeToMidnight(DateTime $userDateTime)
+    protected function setMidnightTime(DateTime $userDateTime): DateTime
     {
         return $userDateTime->setTime(0, 0);
     }
