@@ -1,17 +1,47 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use Murolike\Book\Components\FriendlyDate\UserFriendlyDateTimeText;
-use Murolike\Book\Components\FriendlyDate\Constructor\UserFriendlyDateTime;
+namespace unit\FriendlyDate\Constructor;
 
+use DateTimeImmutable;
+use Exception;
+use Murolike\Book\FriendlyDate\Constructor\UserFriendlyDateTime;
+use Murolike\Book\FriendlyDate\UserFriendlyDateTimeText;
+use PHPUnit\Framework\TestCase;
+use DateTime;
+
+/**
+ * Тестирование основного класса
+ */
 class UserFriendlyDateTimeTest extends TestCase
 {
+    /**
+     * @var DateTime
+     */
     protected DateTime $today;
+
+    /**
+     * @var DateTime
+     */
     protected DateTime $dayBeforeYesterday;
+
+    /**
+     * @var DateTime
+     */
     protected DateTime $yesterday;
+
+    /**
+     * @var DateTime
+     */
     protected DateTime $tomorrow;
+
+    /**
+     * @var DateTime
+     */
     protected DateTime $dayAfterTomorrow;
 
+    /**
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -22,51 +52,103 @@ class UserFriendlyDateTimeTest extends TestCase
         $this->dayAfterTomorrow = new DateTime('tomorrow +1 day');
     }
 
-    public function testIsCurrentDay(): void
+    /**
+     * Тестирование учета таймзоны
+     * @return void
+     * @throws Exception
+     */
+    public function testTimezone(): void
     {
-        $component = new UserFriendlyDateTime($this->today);
-        self::assertTrue($component->isCurrentDay());
+        $timeZone = new \DateTimeZone('Europe/Moscow');
+        $todayUserDateTime = new DateTime('today midnight');
+        $tomorrowUserDateTime = clone $todayUserDateTime;
 
-        $component = new UserFriendlyDateTime(new DateTime('tomorrow'));
-        self::assertFalse($component->isCurrentDay());
+        $tomorrowUserDateTime->setTime(23, 59);
+        $tomorrowUserDateTime->setTimezone($timeZone);
+        $todayUserDateTime->setTimezone($timeZone);
+
+        $tomorrowUserFriendlyDateTime = new UserFriendlyDateTime($tomorrowUserDateTime);
+        $todayUserFriendlyDateTime = new UserFriendlyDateTime($todayUserDateTime);
+
+        self::assertEquals(UserFriendlyDateTimeText::tomorrow->value, $tomorrowUserFriendlyDateTime->getDate());
+        self::assertEquals(UserFriendlyDateTimeText::today->value, $todayUserFriendlyDateTime->getDate());
     }
 
+    /**
+     * Тест на текущий день
+     * @return void
+     * @throws Exception
+     */
+    public function testIsToday(): void
+    {
+        $userFriendlyDateTime = new UserFriendlyDateTime($this->today);
+        self::assertTrue($userFriendlyDateTime->isToday());
+
+        $userFriendlyDateTime = new UserFriendlyDateTime(new DateTime('tomorrow'));
+        self::assertFalse($userFriendlyDateTime->isToday());
+    }
+
+    /**
+     * Тест на завтра
+     * @return void
+     * @throws Exception
+     */
     public function testIsTomorrow(): void
     {
-        $component = new UserFriendlyDateTime($this->tomorrow);
-        self::assertTrue($component->isTomorrow());
+        $userFriendlyDateTime = new UserFriendlyDateTime($this->tomorrow);
+        self::assertTrue($userFriendlyDateTime->isTomorrow());
 
-        $component = new UserFriendlyDateTime(new DateTime());
-        self::assertFalse($component->isTomorrow());
+        $userFriendlyDateTime = new UserFriendlyDateTime(new DateTime());
+        self::assertFalse($userFriendlyDateTime->isTomorrow());
     }
 
+    /**
+     * Тест на вчера
+     * @return void
+     * @throws Exception
+     */
     public function testIsYesterday(): void
     {
-        $component = new UserFriendlyDateTime($this->yesterday);
-        self::assertTrue($component->isYesterday());
+        $userFriendlyDateTime = new UserFriendlyDateTime($this->yesterday);
+        self::assertTrue($userFriendlyDateTime->isYesterday());
 
-        $component = new UserFriendlyDateTime(new DateTime());
-        self::assertFalse($component->isYesterday());
+        $userFriendlyDateTime = new UserFriendlyDateTime(new DateTime());
+        self::assertFalse($userFriendlyDateTime->isYesterday());
     }
 
+    /**
+     * Тест на послезавтра
+     * @return void
+     * @throws Exception
+     */
     public function testIsDayAfterTomorrow(): void
     {
-        $component = new UserFriendlyDateTime($this->dayAfterTomorrow);
-        self::assertTrue($component->isDayAfterTomorrow());
+        $userFriendlyDateTime = new UserFriendlyDateTime($this->dayAfterTomorrow);
+        self::assertTrue($userFriendlyDateTime->isDayAfterTomorrow());
 
-        $component = new UserFriendlyDateTime(new DateTime());
-        self::assertFalse($component->isDayAfterTomorrow());
+        $userFriendlyDateTime = new UserFriendlyDateTime(new DateTime());
+        self::assertFalse($userFriendlyDateTime->isDayAfterTomorrow());
     }
 
+    /**
+     * Тест на позавчера
+     * @return void
+     * @throws Exception
+     */
     public function testIsDayBeforeYesterday(): void
     {
-        $component = new UserFriendlyDateTime($this->dayBeforeYesterday);
-        self::assertTrue($component->isDayBeforeYesterday());
+        $userFriendlyDateTime = new UserFriendlyDateTime($this->dayBeforeYesterday);
+        self::assertTrue($userFriendlyDateTime->isDayBeforeYesterday());
 
-        $component = new UserFriendlyDateTime(new DateTime());
-        self::assertFalse($component->isDayBeforeYesterday());
+        $userFriendlyDateTime = new UserFriendlyDateTime(new DateTime());
+        self::assertFalse($userFriendlyDateTime->isDayBeforeYesterday());
     }
 
+    /**
+     * Тест на получения текстовой интерпретации
+     * @return void
+     * @throws Exception
+     */
     public function testGetDate(): void
     {
         $currentDayUserFriendlyDateTime = new UserFriendlyDateTime($this->today);
@@ -90,6 +172,11 @@ class UserFriendlyDateTimeTest extends TestCase
         self::assertNull($fiveDayAgoUserFriendlyDateTime->getDate());
     }
 
+    /**
+     * Тест на заглавную
+     * @return void
+     * @throws Exception
+     */
     public function testGetCapitalizedDate(): void
     {
         $currentDayUserFriendlyDateTime = new UserFriendlyDateTime($this->today);
@@ -123,6 +210,11 @@ class UserFriendlyDateTimeTest extends TestCase
         self::assertNull($fiveDayAgoUserFriendlyDateTime->getCapitalizedDate());
     }
 
+    /**
+     * Преобразование к верхнему регистру
+     * @param string $value
+     * @return string
+     */
     protected function getCapitalizedDate(string $value): string
     {
         return mb_strtoupper(mb_substr($value, 0, 1)) . mb_substr($value, 1);

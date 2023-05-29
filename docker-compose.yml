@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  #  docs: #docker run --rm -it -v $PWD/docs:/docs -p 3000:3000 dannyben/madness serve
+  #    image: dannyben/madness
+  #    volumes: ["./docs:/docs"]
+  #    ports: ["3000:3000"]
+  #    command: server
+  docs:
+    build: .
+    image: dannyben/madness
+    volumes:
+      - ./docs:/docs
+      - ./src:/docs/src
+    ports:
+      - 3000:3000
+    command: server

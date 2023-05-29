@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Murolike\Book\Components\FriendlyDate;
+namespace Murolike\Book\FriendlyDate;
 
 /**
  * Список вариантов вывода

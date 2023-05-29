@@ -1,17 +1,30 @@
 <?php
 
-namespace components\friendlyDate\method;
+declare(strict_types=1);
 
-class UserFriendlyDateTimeMethodDecorator implements UserFriendlyDateTimeMethodInterface
+namespace Murolike\Book\FriendlyDate\Method;
+
+/**
+ * Декоратор для класса преобразовывающий дату в текст
+ * Задача "Реализовать расширение функционала" - "Декоратор"
+ */
+class UserFriendlyDateTimeMethodExtendByDecorator implements CapitalizedUserFriendlyDateTimeInterface
 {
-    public function __construct(protected UserFriendlyDateTimeMethodInterface $userFriendlyDateTimeMethod)
+    /**
+     * Формат даты
+     * @var string
+     */
+    protected string $dateTimeFormat = 'd.m.Y';
+
+    /**
+     * @param CapitalizedUserFriendlyDateTimeInterface $userFriendlyDateTimeMethod
+     */
+    public function __construct(protected CapitalizedUserFriendlyDateTimeInterface $userFriendlyDateTimeMethod)
     {
     }
 
     /**
-     * @param \DateTime $userDateTime
-     * @return string|null
-     * @todo если нужно добавить "через одну/две недели", при наследовании данного метода, как делать?
+     * @inheritdoc
      */
     public function getDate(\DateTime $userDateTime): ?string
     {

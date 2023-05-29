@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Murolike\Book\Components\FriendlyDate\Constructor;
+namespace Murolike\Book\FriendlyDate\Constructor;
 
 use DateTime;
-use Murolike\Book\Components\FriendlyDate\UserFriendlyDateTimeText;
+use DateTimeZone;
+use Exception;
+use Murolike\Book\FriendlyDate\UserFriendlyDateTimeText;
 
 /**
- * Класс для преобразования даты в текст
+ * Расширенный класс для преобразования даты в текст
  * Задача "Реализовать расширение функционала" - "Наследование"
  */
-class UserFriendlyDateTimeExtend extends UserFriendlyDateTime
+class TwoWeeksUserFriendlyDateTime extends UserFriendlyDateTime
 {
     /**
      * Две недели назад
@@ -27,13 +29,18 @@ class UserFriendlyDateTimeExtend extends UserFriendlyDateTime
 
     /**
      * @param DateTime $userDateTime
+     * @throws Exception
      */
     public function __construct(DateTime $userDateTime)
     {
         parent::__construct($userDateTime);
 
-        $this->twoWeeksAgo = new DateTime('-2 weeks midnight');
-        $this->twoWeeksLater = new DateTime('+2 weeks midnight');
+        /** @var DateTimeZone|false $userDateTimeZone */
+        $userDateTimeZone = $this->userDateTime->getTimezone();
+        $userDateTimeZone = $userDateTimeZone ?: null;
+
+        $this->twoWeeksAgo = new DateTime('-2 weeks midnight', $userDateTimeZone);
+        $this->twoWeeksLater = new DateTime('+2 weeks midnight', $userDateTimeZone);
     }
 
     /**
@@ -59,8 +66,7 @@ class UserFriendlyDateTimeExtend extends UserFriendlyDateTime
      */
     public function isTwoWeeksAgo(): bool
     {
-        $userDateTime = $this->setMidnightTime($this->userDateTime);
-        return $this->twoWeeksAgo === $userDateTime;
+        return $this->twoWeeksAgo == $this->userDateTimeMidnight;
     }
 
     /**
@@ -69,7 +75,6 @@ class UserFriendlyDateTimeExtend extends UserFriendlyDateTime
      */
     public function isTwoWeeksLater(): bool
     {
-        $userDateTime = $this->setMidnightTime($this->userDateTime);
-        return $this->twoWeeksLater === $userDateTime;
+        return $this->twoWeeksLater == $this->userDateTimeMidnight;
     }
 }
