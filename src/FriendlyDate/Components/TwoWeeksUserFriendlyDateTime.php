@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Murolike\Book\FriendlyDate\Method;
+namespace Murolike\Book\FriendlyDate\Components;
 
 use DateTime;
 use Murolike\Book\FriendlyDate\UserFriendlyDateTimeText;
@@ -11,7 +11,7 @@ use Murolike\Book\FriendlyDate\UserFriendlyDateTimeText;
  * Расширенный класс для преобразования даты в текст
  * Задача "Реализовать расширение функционала" - "Наследование"
  */
-class UserFriendlyDateTimeMethodExtendByInherit extends UserFriendlyDateTimeMethod
+class TwoWeeksUserFriendlyDateTime extends UserFriendlyDateTime
 {
     /**
      * Две недели ранее

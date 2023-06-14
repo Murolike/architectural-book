@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Murolike\Book\FriendlyDate\Method;
+namespace Murolike\Book\FriendlyDate\Components;
 
 /**
  * Декоратор для класса преобразовывающий дату в текст
  * Задача "Реализовать расширение функционала" - "Декоратор"
  */
-class UserFriendlyDateTimeMethodExtendByDecorator implements CapitalizedUserFriendlyDateTimeInterface
+class UserFriendlyDateTimeExtendByDecorator implements CapitalizedUserFriendlyDateTimeInterface
 {
     /**
      * Формат даты

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Murolike\Book\FriendlyDate\Method;
+namespace Murolike\Book\FriendlyDate\Components;
 
 use DateTime;
 use Murolike\Book\FriendlyDate\UserFriendlyDateTimeText;
@@ -12,7 +12,7 @@ use Murolike\Book\FriendlyDate\UserFriendlyDateTimeText;
  * Задача "Реализовать класс для вывода даты в текстовом формате"
  * @todo таймзона
  */
-class UserFriendlyDateTimeMethod implements CapitalizedUserFriendlyDateTimeInterface
+class UserFriendlyDateTime implements UserFriendlyDateTimeInterface, CapitalizedUserFriendlyDateTimeInterface
 {
     /**
      * Текущая дата

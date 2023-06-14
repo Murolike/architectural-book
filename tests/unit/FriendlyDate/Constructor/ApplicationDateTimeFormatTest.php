@@ -4,14 +4,14 @@ namespace unit\FriendlyDate\Constructor;
 
 use DateTime;
 use Exception;
-use Murolike\Book\FriendlyDate\Constructor\UserFriendlyDateTimeExtendedFormat;
+use Murolike\Book\FriendlyDate\Constructor\ApplicationDateTimeFormat;
 use Murolike\Book\FriendlyDate\UserFriendlyDateTimeText;
 use PHPUnit\Framework\TestCase;
 
 /**
  *
  */
-class UserFriendlyDateTimeExtendedFormatTest extends TestCase
+class ApplicationDateTimeFormatTest extends TestCase
 {
 
     /**
@@ -24,8 +24,8 @@ class UserFriendlyDateTimeExtendedFormatTest extends TestCase
         $twoWeekAgoDateTime = new DateTime('-14 day');
         $twoDayAgoDateTime = new DateTime('-2 day');
 
-        $twoWeekAgoUserFriendlyDateTime = new UserFriendlyDateTimeExtendedFormat($twoWeekAgoDateTime);
-        $todayUserFriendlyDateTime = new UserFriendlyDateTimeExtendedFormat($twoDayAgoDateTime);
+        $twoWeekAgoUserFriendlyDateTime = new ApplicationDateTimeFormat($twoWeekAgoDateTime);
+        $todayUserFriendlyDateTime = new ApplicationDateTimeFormat($twoDayAgoDateTime);
 
 
         self::assertEquals($twoWeekAgoDateTime->format('d.m.Y'), $twoWeekAgoUserFriendlyDateTime->getDate());

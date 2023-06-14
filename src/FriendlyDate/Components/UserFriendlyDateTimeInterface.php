@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Murolike\Book\FriendlyDate\Method;
+namespace Murolike\Book\FriendlyDate\Components;
 
 /**
  * Интерфейс класса для преобразования даты в текст
  */
-interface UserFriendlyDateTimeMethodInterface
+interface UserFriendlyDateTimeInterface
 {
     /**
      * Получить дату в формате текста

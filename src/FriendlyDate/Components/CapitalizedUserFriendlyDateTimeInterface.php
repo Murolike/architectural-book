@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Murolike\Book\FriendlyDate\Method;
+namespace Murolike\Book\FriendlyDate\Components;
 
 /**
  * Интерфейс для преобразования к верхнему регистру
  */
-interface CapitalizedUserFriendlyDateTimeInterface extends UserFriendlyDateTimeMethodInterface
+interface CapitalizedUserFriendlyDateTimeInterface
 {
     /**
      * Получить дату в формате текста с заглавной

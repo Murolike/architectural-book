@@ -8,7 +8,7 @@ use Murolike\Book\FriendlyDate\Constructor\TwoWeeksUserFriendlyDateTime;
 use Murolike\Book\FriendlyDate\UserFriendlyDateTimeText;
 use PHPUnit\Framework\TestCase;
 
-class UserFriendlyDateTimeExtendedByInheritTest extends TestCase
+class TwoWeeksUserFriendlyDateTimeTest extends TestCase
 {
     /**
      * @var DateTime

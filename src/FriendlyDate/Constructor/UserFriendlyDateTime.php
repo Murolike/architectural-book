@@ -13,7 +13,7 @@ use Murolike\Book\FriendlyDate\UserFriendlyDateTimeText;
  * Класс для преобразования даты в текст
  * Задача "Реализовать класс для вывода даты в текстовом формате"
  */
-class UserFriendlyDateTime implements UserFriendlyDateTimeInterface
+class UserFriendlyDateTime implements UserFriendlyDateTimeInterface, CapitalizedUserFriendlyDateTimeInterface
 {
     /**
      * Текущая дата
@@ -94,6 +94,18 @@ class UserFriendlyDateTime implements UserFriendlyDateTimeInterface
             $value = UserFriendlyDateTimeText::dayBeforeYesterday->value;
         }
 
+        return $value;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCapitalizedDate(): ?string
+    {
+        $value = $this->getDate();
+        if ($value) {
+            $value = mb_strtoupper(mb_substr($value, 0, 1)) . mb_substr($value, 1);
+        }
         return $value;
     }
 
